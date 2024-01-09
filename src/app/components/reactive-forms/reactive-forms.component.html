@@ -1,0 +1,122 @@
+<div class="bg-primary" style="min-height: 100vh">
+  <div class="container w-50">
+    <div class="card">
+      <div class="card-body">
+        <form [formGroup]="userFormGroup" class="row gy-3">
+          <div class="col">
+            <input
+              formControlName="firstName"
+              type="text"
+              class="form-control"
+              placeholder="First name"
+              aria-label="First name"
+            />
+          </div>
+          <div class="col">
+            <input
+              formControlName="lastName"
+              type="text"
+              class="form-control"
+              placeholder="Last name"
+              aria-label="Last name"
+            />
+          </div>
+          <div class="col-12">
+            <input
+              formControlName="email"
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              aria-label="Email"
+            />
+          </div>
+          <div class="col-12">
+            <div class="form-check">
+              <input
+                formControlName="acceptTerms"
+                class="form-check-input"
+                type="checkbox"
+                id="gridCheck"
+              />
+              <label class="form-check-label" for="gridCheck">
+                Check me out
+              </label>
+            </div>
+          </div>
+
+          <!-- SECCION DE LOCACION DEL USUARIO -->
+
+          <div class="py-3">
+            <hr />
+          </div>
+
+          <ng-container formGroupName="location">
+            <div class="col-12">
+              <!-- INPUT DE ADDRESS -->
+              <label for="inputAddress" class="form-label">Address</label>
+              <input
+                formControlName="address"
+                type="text"
+                class="form-control"
+                id="inputAddress"
+                placeholder="1234 Main St"
+              />
+            </div>
+            <div class="col-12">
+              <label for="inputAddress2" class="form-label">Address 2</label>
+              <input
+                type="text"
+                class="form-control"
+                id="inputAddress2"
+                placeholder="Apartment, studio, or floor"
+              />
+            </div>
+            <!-- INPUT DE CIUDAD -->
+            <div class="col-md-6">
+              <label for="inputCity" class="form-label">City</label>
+              <input
+                formControlName="city"
+                type="text"
+                class="form-control"
+                id="inputCity"
+              />
+            </div>
+            <!-- INPUT DE ESTADO/PROVINCIA -->
+            <div class="col-md-4">
+              <label for="inputState" class="form-label">State</label>
+              <select
+                formControlName="state"
+                id="inputState"
+                class="form-select"
+              >
+                <option selected>Choose...</option>
+                <!-- ANGULAR 17 > -->
+                <!-- @for (provincia of provincias; track $index) {
+                <option>{{ provincia }}</option>
+                } -->
+
+                <!-- ANGULAR 16 < -->
+                <option
+                  [value]="provincia.id"
+                  *ngFor="let provincia of provincias"
+                >
+                  {{ provincia.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-2">
+              <label for="inputZip" class="form-label">Zip</label>
+              <input type="text" class="form-control" id="inputZip" />
+            </div>
+          </ng-container>
+
+          <div class="py-3">
+            <hr />
+          </div>
+          <pre>{{ userFormGroup.value | json }}</pre>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
