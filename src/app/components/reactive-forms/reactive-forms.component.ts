@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { noHomeroValidator } from '../../utils/custom-validators';
 
 interface Provincia {
   id: number;
@@ -28,9 +34,18 @@ export class ReactiveFormsComponent {
 
   constructor(private formBuilder: FormBuilder) {
     this.userFormGroup = this.formBuilder.group({
-      firstName: this.formBuilder.control(''),
-      lastName: this.formBuilder.control(''),
-      email: this.formBuilder.control('test@mail.com'),
+      firstName: this.formBuilder.control('', [
+        Validators.required,
+        Validators.minLength(2),
+        noHomeroValidator,
+      ]),
+      lastName: this.formBuilder.control('', [Validators.required]),
+
+      email: this.formBuilder.control('', [
+        Validators.required,
+        Validators.email,
+      ]),
+
       acceptTerms: this.formBuilder.control(false),
 
       location: this.formBuilder.group({
@@ -44,5 +59,30 @@ export class ReactiveFormsComponent {
 
     // this.formBuilder.control();
     // this.formBuilder.array();
+  }
+
+  getErrors(formControlName: string): ValidationErrors | null | undefined {
+    return this.userFormGroup.get(formControlName)?.errors;
+  }
+
+  applyValidationStyleClass(formControlName: string): string {
+    const control = this.userFormGroup.get(formControlName);
+    if (control?.touched) {
+      if (control?.invalid) {
+        return 'is-invalid';
+      } else {
+        return 'is-valid';
+      }
+    }
+    return '';
+  }
+
+  onSubmit(): void {
+    if (this.userFormGroup.invalid) {
+      // marcar todos los controles del formulario como que se han tocado
+      this.userFormGroup.markAllAsTouched();
+    } else {
+      console.log(this.userFormGroup.value);
+    }
   }
 }

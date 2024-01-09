@@ -2,18 +2,30 @@
   <div class="container w-50">
     <div class="card">
       <div class="card-body">
-        <form [formGroup]="userFormGroup" class="row gy-3">
+        <form
+          [formGroup]="userFormGroup"
+          (ngSubmit)="onSubmit()"
+          class="row gy-3"
+        >
           <div class="col">
+            <!-- INPUT firstName -->
             <input
+              [ngClass]="applyValidationStyleClass('firstName')"
               formControlName="firstName"
               type="text"
               class="form-control"
               placeholder="First name"
               aria-label="First name"
             />
+            <small class="invalid-feedback">
+              {{  getErrors('firstName')?.['required'] && 'Este campo es requerido'}}
+              {{  getErrors('firstName')?.['noHomeroError'] && 'No admiten homeros'}}
+            </small>
+            <!-- <pre>{{ getErrors("firstName") | json }}</pre> -->
           </div>
           <div class="col">
             <input
+              [ngClass]="applyValidationStyleClass('lastName')"
               formControlName="lastName"
               type="text"
               class="form-control"
@@ -21,8 +33,10 @@
               aria-label="Last name"
             />
           </div>
+          <!-- EMAIL INPUT -->
           <div class="col-12">
             <input
+              [ngClass]="applyValidationStyleClass('email')"
               formControlName="email"
               type="email"
               class="form-control"
@@ -110,6 +124,10 @@
               <input type="text" class="form-control" id="inputZip" />
             </div>
           </ng-container>
+
+          <div class="col-12">
+            <button class="btn btn-primary" type="submit">Enviar</button>
+          </div>
 
           <div class="py-3">
             <hr />
